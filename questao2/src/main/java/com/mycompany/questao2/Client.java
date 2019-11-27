@@ -26,10 +26,10 @@ public class Client {
     public static void main(String[] args) throws IOException {
 
         System.out.println("<----- CLIENTE ----->");
-        
         Socket client = new Socket("127.0.0.1", 1111);
+        Socket client2 = new Socket("127.0.0.1", 3333);
 
-        // x, y e op
+        // x, y, op e node
         List<Integer> valores = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
 
@@ -47,13 +47,28 @@ public class Client {
         System.out.print("Informe a operação (op1 ou op2): ");
         int op = scanner.nextInt();
         valores.add(op);
-        
-        
-        ObjectOutputStream outputStream = new ObjectOutputStream(client.getOutputStream());
-        outputStream.writeObject(valores);
-        
-        
-        client.close();
+
+        System.out.print("Informe o Node: ");
+        int node = scanner.nextInt();
+        valores.add(node);
+
+        if (node == 1) {
+            ObjectOutputStream outputStream = new ObjectOutputStream(client.getOutputStream());
+            outputStream.writeObject(valores);
+            
+            client2.close();
+            client.close();
+        } else if(node == 3){
+            ObjectOutputStream outputStream = new ObjectOutputStream(client2.getOutputStream());
+            outputStream.writeObject(valores);
+            
+            client.close();
+            client2.close();
+            
+        } if(node == 2){
+            System.out.println("NODE 2 - REPLICA");
+        }
+
         
 
     }
